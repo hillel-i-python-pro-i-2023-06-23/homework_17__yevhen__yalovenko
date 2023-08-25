@@ -9,9 +9,13 @@
         <li>
             <div style="display: flex; flex-flow: row;">
                 <div style="margin: .2em;">
-                    <b><span>{{ contact.name }}</span></b>
+                    <span><b>Contact</b>: {{ contact.name }}</span>
                     <br>
-                    <span>{{ contact.modified_at }}</span>
+                    {% if contact.birthday %}
+                     <span><b>Birthday</b>: {{ contact.birthday }}</span>
+                        {% else %}
+                        <span><b>Birthday</b>: Unknown</span>
+                    {% endif %}
                 </div>
                 <div style="margin: .2em;">
                     <a href="{% url 'contacts:contacts_update' contact.pk %}">

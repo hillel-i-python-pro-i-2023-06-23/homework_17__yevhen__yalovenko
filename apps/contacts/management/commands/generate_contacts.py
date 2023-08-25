@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from apps.contacts.services.generate_and_save_user import generate_and_save_user
+from apps.contacts.services.generate_and_save_contacts import generate_and_save_contacts
 
 
 class Command(BaseCommand):
@@ -15,4 +15,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         amount: int = options["amount"]
 
-        generate_and_save_user(amount=amount)
+        generate_and_save_contacts(amount=amount)

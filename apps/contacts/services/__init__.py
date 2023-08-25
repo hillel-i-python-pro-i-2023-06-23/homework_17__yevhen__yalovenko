@@ -1,3 +1,1 @@
-from faker import Faker
-
-faker = Faker()
+from .data_types import data_types, data_type_generators

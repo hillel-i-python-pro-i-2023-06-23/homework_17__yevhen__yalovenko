@@ -1,24 +1,23 @@
 <div>
-    <a href="{% url 'users:users_create' %}">
+    <a href="{% url 'contacts:contact_create' %}">
         <button>Create</button>
     </a>
 </div>
 
 <ol>
-    {% for user in users_list %}
+    {% for contact in contacts_list %}
         <li>
             <div style="display: flex; flex-flow: row;">
                 <div style="margin: .2em;">
-                    <b><span>{{ user.name }}</span></b>
-                    <span>{{ user.email }}</span>
+                    <b><span>{{ contact.name }}</span></b>
                     <br>
-                    <span>{{ user.modified_at }}</span>
+                    <span>{{ contact.modified_at }}</span>
                 </div>
                 <div style="margin: .2em;">
-                    <a href="{% url 'users:users_update' user.pk %}">
+                    <a href="{% url 'contacts:contacts_update' contact.pk %}">
                         <button>Update</button>
                     </a>
-                    <a href="{% url 'users:users_delete' user.pk %}">
+                    <a href="{% url 'contacts:contacts_delete' contact.pk %}">
                         <button>Delete</button>
                     </a>
                 </div>

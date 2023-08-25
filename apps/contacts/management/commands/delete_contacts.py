@@ -2,7 +2,7 @@ import logging
 
 from django.core.management.base import BaseCommand
 
-from apps.users.models import User
+from apps.contacts.models import Contact
 
 
 class Command(BaseCommand):
@@ -24,13 +24,13 @@ class Command(BaseCommand):
 
         logger = logging.getLogger("django")
 
-        queryset = User.objects.all()
+        queryset = Contact.objects.all()
         logger.info(f"Current amount of contacts before: {queryset.count()}")
 
         if delete_by_date:
-            queryset_for_delete = User.objects.filter(created_at__date=delete_by_date)
+            queryset_for_delete = Contact.objects.filter(created_at__date=delete_by_date)
         elif delete_by_pk:
-            queryset_for_delete = User.objects.filter(id=delete_by_pk)
+            queryset_for_delete = Contact.objects.filter(id=delete_by_pk)
         else:
             queryset_for_delete = queryset
 

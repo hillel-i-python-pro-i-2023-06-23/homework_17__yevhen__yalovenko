@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # [bash_init]-[BEGIN]
 # Exit whenever it encounters an error, also known as a non–zero exit code.

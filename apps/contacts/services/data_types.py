@@ -1,24 +1,27 @@
 from apps.contacts.models.contact import ContactDataType
 from apps.contacts.services.faker_init import faker
 
-phone_data_type = ContactDataType.objects.create(
-    name="Phone",
-    regex_pattern=r"^\?1?\d{9,15}$",
-    message="Phone number must be entered in the format: '9999999999'. Up to 15 digits is allowed.",
-)
-email_data_type = ContactDataType.objects.create(
-    name="Email",
-    regex_pattern=r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$",
-    message="Email must contain @ and domain name",
-)
-telegram_data_type = ContactDataType.objects.create(
-    name="Telegram", regex_pattern=r"^[a-zA-Z0-9._%+-]$", message="Telegram nickname"
-)
-linked_in_type = ContactDataType.objects.create(
-    name="LinkedIn", regex_pattern=r"^[a-zA-Z0-9._%+-]$", message="LinkedIn profile"
-)
+data_type_info = [
+    (
+        "Phone",
+        r"^\?1?\d{9,15}$",
+        "Phone number must be entered in the format: '9999999999'. Up to 15 digits is allowed.",
+    ),
+    ("Email", r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$", "Email must contain @ and domain name"),
+    ("Telegram", r"^[a-zA-Z0-9._%+-]$", "Telegram nickname"),
+    ("LinkedIn", r"^[a-zA-Z0-9._%+-]$", "LinkedIn profile"),
+]
+
+data_type_instances = {}
+
+for name, regex_pattern, message in data_type_info:
+    data_type_instance, created = ContactDataType.objects.get_or_create(
+        name=name, defaults={"regex_pattern": regex_pattern, "message": message}
+    )
+    data_type_instances[name] = data_type_instance
 
 
+# Generator functions
 def generate_phone_number():
     return faker.unique.phone_number()
 
@@ -35,6 +38,7 @@ def generate_linkedin():
     return f"linkedin.com/in/{faker.first_name()}-{faker.last_name()}-{faker.pystr_format(string_format='??######')}"
 
 
+# Dictionary of generator functions
 data_type_generators = {
     "Phone": generate_phone_number,
     "Email": generate_email,
@@ -42,4 +46,5 @@ data_type_generators = {
     "LinkedIn": generate_linkedin,
 }
 
-data_types = [phone_data_type, email_data_type, telegram_data_type, linked_in_type]
+# List of data type instances
+data_types = [data_type_instances[name] for name in data_type_generators.keys()]

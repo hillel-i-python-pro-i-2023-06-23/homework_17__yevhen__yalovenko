@@ -80,3 +80,15 @@ migrate:
 # Create admin
 create-admin:
 	@python manage.py create_admin
+
+
+.PHONY: generate_contacts
+# Generate contacts
+generate-contacts:
+	@python manage.py generate_contacts
+
+
+.PHONY: delete_contacts
+# WARNING! Delete all contacts
+delete-contacts:
+	@python manage.py delete_contacts

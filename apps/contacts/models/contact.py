@@ -30,7 +30,7 @@ class Contact(models.Model):
 
 
 class ContactDataType(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     regex_pattern = models.CharField(max_length=200, help_text="Regular expression for validation")
     message = models.CharField(max_length=200)
 

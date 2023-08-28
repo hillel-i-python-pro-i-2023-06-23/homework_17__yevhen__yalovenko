@@ -1,11 +1,11 @@
 from django import forms
 
-from apps.contacts.models import Contact
 
-
-class UserForm(forms.ModelForm):
-    class Meta:
-        model = Contact
-        widgets = {
-            "password": forms.PasswordInput(),
-        }
+class GenerateForm(forms.Form):
+    amount = forms.IntegerField(
+        label="Amount",
+        min_value=1,
+        max_value=100,
+        required=True,
+        initial=12,
+    )

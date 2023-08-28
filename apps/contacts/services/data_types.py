@@ -1,11 +1,12 @@
 from apps.contacts.models.contact import ContactDataType
 from apps.contacts.services.faker_init import faker
 
+# Possible data type and patterns
 data_type_info = [
     (
         "Phone",
-        r"^\?1?\d{9,15}$",
-        "Phone number must be entered in the format: '9999999999'. Up to 15 digits is allowed.",
+        r"^\+\d{12}$",
+        "Phone number must be entered in the format: '+38XXXXXXXXXX'. Symbol + and 12 digits is allowed.",
     ),
     ("Email", r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$", "Email must contain @ and domain name"),
     ("Telegram", r"^[a-zA-Z0-9._%+-]$", "Telegram nickname"),
@@ -23,7 +24,7 @@ for name, regex_pattern, message in data_type_info:
 
 # Generator functions
 def generate_phone_number():
-    return faker.unique.phone_number()
+    return f"+380{faker.unique.msisdn()[4:]}"
 
 
 def generate_email():

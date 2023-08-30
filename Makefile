@@ -46,7 +46,7 @@ init-dev:
 .PHONY: homework-i-run
 # Run homework.
 homework-i-run:
-	@python run.py
+	@python manage.py runserver localhost:8000
 
 .PHONY: homework-i-purge
 homework-i-purge:
@@ -69,12 +69,26 @@ pre-commit-run-all:
 migrations:
 	@python manage.py makemigrations
 
+
 .PHONY: migrate
 # Migrate
 migrate:
 	@python manage.py migrate
 
-.PHONY: create_admin
+
+.PHONY: create-admin
 # Create admin
-create_admin:
-	@DJANGO_SUPERUSER_PASSWORD=admin123 python manage.py createsuperuser --user admin --email admin@gmail.com --no-input
+create-admin:
+	@python manage.py create_admin
+
+
+.PHONY: generate_contacts
+# Generate contacts
+generate-contacts:
+	@python manage.py generate_contacts
+
+
+.PHONY: delete_contacts
+# WARNING! Delete all contacts
+delete-contacts:
+	@python manage.py delete_contacts

@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # shellcheck disable=SC2124
 cmd="$@"
 
@@ -11,7 +12,6 @@ set -o pipefail
 # Treat unset variables and parameters other than the special parameters ‘@’ or ‘*’ as an error when performing parameter expansion.
 set -o nounset
 # [bash_init]-[END]
-
 
 # shellcheck disable=SC2086
 exec $cmd

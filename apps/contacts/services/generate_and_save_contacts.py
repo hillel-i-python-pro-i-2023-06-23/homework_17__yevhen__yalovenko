@@ -8,7 +8,7 @@ from apps.contacts.services import data_types, data_type_generators
 from apps.contacts.services.faker_init import faker
 
 
-def generate_and_save_contacts(amount):
+def generate_and_save_contacts(amount: int):
     possible_groups = ["family", "friends", "work", "gamers"]
     for _ in range(amount):
         random_choice = random.randint(0, 3)

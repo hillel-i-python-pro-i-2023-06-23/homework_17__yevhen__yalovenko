@@ -4,12 +4,33 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from apps.contacts.forms import GenerateForm
 from apps.contacts.models import Contact
+from apps.contacts.services.aggregation_info import (
+    show_contact_data_types_counts,
+    show_contacts_data_count,
+    show_youngest_contact,
+    show_oldest_contact,
+    show_average_age,
+)
 from apps.contacts.services.delete_contacts import delete_contacts
 from apps.contacts.services.generate_and_save_contacts import generate_and_save_contacts
 
 
 class ContactsListView(ListView):
     model = Contact
+
+    def get_queryset(self):
+        return show_contacts_data_count()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["contact_data_types_counts"] = show_contact_data_types_counts()
+        context["youngest_contact"] = show_youngest_contact()[0]
+        context["youngest_age"] = show_youngest_contact()[1]
+        context["oldest_contact"] = show_oldest_contact()[0]
+        context["oldest_age"] = show_oldest_contact()[1]
+        context["average_age"] = show_average_age()
+
+        return context
 
 
 class ContactCreateView(CreateView):
@@ -53,11 +74,12 @@ def generate_contacts_view(request):
     else:
         form = GenerateForm()
 
+    contact_list = show_contacts_data_count()
     return render(
         request=request,
         template_name="contacts/contacts_generate.html",
         context=dict(
-            contacts_list=Contact.objects.all(),
+            contacts_list=contact_list,
             form=form,
         ),
     )

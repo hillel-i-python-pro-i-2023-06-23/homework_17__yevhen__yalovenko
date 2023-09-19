@@ -2,6 +2,11 @@
 
 {% block content %}
     <h1>Contacts</h1>
+    <h2>{{ contact_data_types_counts }}</h2>
+    <h3>Youngest contact {{ youngest_info.contact }}, his age {{ youngest_info.age }}</h3>
+    <h3>Oldest contact {{ oldest_info.contact }}, his age {{ oldest_info.age }}</h3>
+    <h3>Average age {{ average_age }}</h3>
+
 
 {% include "contacts/_contacts_list_base.html" with contacts_list=object_list %}
 

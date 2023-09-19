@@ -24,6 +24,7 @@
                     {% else %}
                         <span><b>Birthday</b>: Unknown</span>
                     {% endif %}
+                    <span><b>Amount of contact datas</b>: {{ contact.data_count }}</span>
                 </div>
                 <div style="margin: .2em;">
                     <a href="{% url 'contacts:contacts_update' contact.pk %}">

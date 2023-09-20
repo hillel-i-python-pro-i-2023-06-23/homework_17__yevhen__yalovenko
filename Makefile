@@ -82,7 +82,7 @@ create-admin:
 	@python manage.py create_admin
 
 
-.PHONY: generate_contacts
+.PHONY: generate-contacts
 # Generate contacts
 generate-contacts:
 	@python manage.py generate_contacts

@@ -8,8 +8,7 @@ from apps.contacts.services.aggregation_info import (
     show_contact_data_types_counts,
     show_contacts_data_count,
     show_average_age,
-    show_oldest_contact,
-    show_youngest_contact,
+    show_contact_info,
 )
 from apps.contacts.services.delete_contacts import delete_contacts
 from apps.contacts.services.generate_and_save_contacts import generate_and_save_contacts
@@ -23,11 +22,14 @@ class ContactsListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["contact_data_types_counts"] = show_contact_data_types_counts()
-        context["youngest_info"] = show_youngest_contact()
-        context["oldest_info"] = show_oldest_contact()
-        context["average_age"] = show_average_age()
+        contact_info = show_contact_info()
 
+        context["contact_data_types_counts"] = show_contact_data_types_counts()
+        context["youngest_age"] = contact_info.youngest_age
+        context["youngest_birthdate"] = contact_info.youngest_birthdate
+        context["oldest_age"] = contact_info.oldest_age
+        context["oldest_birthdate"] = contact_info.oldest_birthdate
+        context["average_age"] = show_average_age()
         return context
 
 

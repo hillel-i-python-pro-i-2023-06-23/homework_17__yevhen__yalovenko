@@ -1,12 +1,10 @@
-from collections import namedtuple
 from datetime import date
+from typing import NamedTuple
 
 from django.db import models
 from django.db.models import ExpressionWrapper, FloatField, F
 
 from apps.contacts.models import ContactDataType, Contact
-
-ContactInfo = namedtuple("ContactInfo", ["contact", "age"])
 
 
 def calculate_age(birthdate):
@@ -20,33 +18,31 @@ def calculate_age(birthdate):
     return None
 
 
-def show_contact_data_types_counts():
-    contact_data_types_counts = ContactDataType.objects.aggregate(count=models.Count("name"))
-    count = contact_data_types_counts["count"]
-    return f"Current amount of contact data types: {count}"
+class ContactInfo(NamedTuple):
+    youngest_age: str = None
+    youngest_birthdate: date = None
+    oldest_age: str = None
+    oldest_birthdate: date = None
 
 
-def show_contacts_data_count():
-    contacts_with_data_counts = Contact.objects.annotate(
-        data_count=models.Count("contact_data__data_type", distinct=True)
-    )
-    return contacts_with_data_counts
+def show_contact_info() -> ContactInfo:
+    contact_info = Contact.objects.aggregate(youngest=models.Max("birthday"), oldest=models.Min("birthday"))
 
+    if contact_info:
+        youngest_birthdate = contact_info.get("youngest")
+        oldest_birthdate = contact_info.get("oldest")
 
-def show_youngest_contact():
-    youngest_contact = Contact.objects.aggregate(youngest=models.Max("birthday"))
-    if youngest_contact:
-        youngest = youngest_contact["youngest"]
-        age = calculate_age(youngest)
-        return ContactInfo(contact=youngest, age=age)
+        youngest_age = calculate_age(youngest_birthdate)
+        oldest_age = calculate_age(oldest_birthdate)
 
+        return ContactInfo(
+            youngest_age=youngest_age,
+            youngest_birthdate=youngest_birthdate,
+            oldest_age=oldest_age,
+            oldest_birthdate=oldest_birthdate,
+        )
 
-def show_oldest_contact():
-    oldest_contact = Contact.objects.aggregate(oldest=models.Min("birthday"))
-    if oldest_contact:
-        oldest = oldest_contact["oldest"]
-        age = calculate_age(oldest)
-        return ContactInfo(contact=oldest, age=age)
+    return ContactInfo()
 
 
 def show_average_age():
@@ -58,3 +54,22 @@ def show_average_age():
         age = average_age["average_age"]
         average = calculate_age(date(year=int(age), month=1, day=1))
         return average
+
+
+def show_contact_data_types_counts():
+    contact_data_types_counts = ContactDataType.objects.annotate(count=models.Count("contactdata__contact")).values(
+        "name", "count"
+    )
+
+    output = []
+    for item in contact_data_types_counts:
+        output.append(f"{item['name']}: {item['count']}")
+
+    return output
+
+
+def show_contacts_data_count():
+    contacts_with_data_counts = Contact.objects.annotate(
+        data_count=models.Count("contact_data__data_type", distinct=True)
+    )
+    return contacts_with_data_counts

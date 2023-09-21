@@ -17,7 +17,13 @@ def generate_and_save_contacts(amount: int):
         group = Group.objects.get_or_create(name=possible_groups[random_choice])[0]
         contact.groups.add(group)
 
-        for data_type in data_types:
+        # Generate a random number of data types for each contact
+        num_data_types = random.randint(1, 4)
+        # Shuffle the data types list and take the first num_data_types elements
+        random.shuffle(data_types)
+        selected_data_types = data_types[:num_data_types]
+
+        for data_type in selected_data_types:
             if data_type.name in data_type_generators:
                 generator = data_type_generators[data_type.name]
                 ContactData.objects.get_or_create(contact=contact, data_type=data_type, defaults={"value": generator()})

@@ -18,7 +18,7 @@ def create_data_instances():
     data_type_instances = {}
 
     for name, regex_pattern, message in data_type_info:
-        data_type_instance, created = ContactDataType.objects.get_or_create(
+        data_type_instance, is_created = ContactDataType.objects.get_or_create(
             name=name, defaults={"regex_pattern": regex_pattern, "message": message}
         )
         data_type_instances[name] = data_type_instance

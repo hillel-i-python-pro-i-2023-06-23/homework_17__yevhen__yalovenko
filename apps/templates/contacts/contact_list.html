@@ -5,7 +5,7 @@
     <h3>
     Current contacts data types:
        {% for item in contact_data_types_counts %}
-        	 <ol>{{ forloop.counter }}.{{ item }}</ol>
+        	 <ol>{{ forloop.counter }}.{{ item.name }}:{{ item.count }}</ol>
         {% endfor %}
     </h3>
     <h3>Youngest contact {{ youngest_birthdate }}, his age {{ youngest_age }}</h3>

@@ -61,11 +61,7 @@ def show_contact_data_types_counts():
         "name", "count"
     )
 
-    output = []
-    for item in contact_data_types_counts:
-        output.append(f"{item['name']}: {item['count']}")
-
-    return output
+    return contact_data_types_counts
 
 
 def show_contacts_data_count():

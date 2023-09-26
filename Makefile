@@ -88,6 +88,12 @@ generate-contacts:
 	@python manage.py generate_contacts
 
 
+.PHONY: check-contacts
+# Check if any contacts exists
+check-contacts:
+	@python manage.py check_contacts
+
+
 .PHONY: delete_contacts
 # WARNING! Delete all contacts
 delete-contacts:
